@@ -11,17 +11,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
-function CreateCabinForm() {
+function CreateCabinForm({ onCloseModal }) {
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
-  console.log(errors);
+  //console.log(errors);
   const { mutate, isLoading } = useMutation({
     mutationFn: createEditCabin,
     onSuccess: () => {
       toast.success("Cabin created");
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
       reset();
+      onCloseModal?.();
     },
     onError: (error) => {
       toast.error(error.message);
@@ -29,14 +30,16 @@ function CreateCabinForm() {
   });
 
   function submitFunctin(data) {
-    console.log(data);
     mutate({ ...data, image: data.file[0] });
   }
   function errorFunctin(error) {
     //console.log(error);
   }
   return (
-    <Form onSubmit={handleSubmit(submitFunctin, errorFunctin)}>
+    <Form
+      onSubmit={handleSubmit(submitFunctin, errorFunctin)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow lable="name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -116,7 +119,11 @@ function CreateCabinForm() {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isLoading}>Edit cabin</Button>

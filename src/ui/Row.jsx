@@ -8,6 +8,7 @@ const Row = styled.div`
     props.type == "horizontal" &&
     css`
       flex-direction: row;
+      justify-content: space-between;
       align-items: center;
     `}
   ${(props) =>

@@ -3,11 +3,10 @@ import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import { getCabin } from "../services/apiCabins";
 import CabinTable from "../features/cabins/CabinTable";
-import Button from "../ui/Button";
-import CreateCabinForm from "../features/cabins/CreateCabinForm";
+import AddCabin from "../features/cabins/AddCabin";
+import CabinTableOperations from "../features/cabins/CabinTableOperations";
 
 function Cabins() {
-  const [showForm, setShowForm] = useState(false);
   useEffect(() => {
     getCabin().then((cabins) => {
       console.log(cabins);
@@ -17,17 +16,14 @@ function Cabins() {
     <>
       <Row type="horizontal">
         <Heading as="h1">All cabins</Heading>
-        <p>TEST</p>
+        <CabinTableOperations></CabinTableOperations>
       </Row>
 
       <Row type="horizontal">
         <CabinTable />
       </Row>
       <Row type="horizontal">
-        <button onClick={() => setShowForm(() => !showForm)}>
-          add new cabin
-        </button>
-        {showForm && <CreateCabinForm />}
+        <AddCabin></AddCabin>
       </Row>
     </>
   );

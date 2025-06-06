@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import Uploader from "../data/Uploader";
 const StyeledSidebar = styled.aside`
   padding: 3.2rem 2.4rem;
   border-right: 1px solid var(--color-grey-100);
@@ -16,6 +17,7 @@ export default function Sidebar() {
     <StyeledSidebar>
       <Logo></Logo>
       <MainNav></MainNav>
+      <Uploader></Uploader>
     </StyeledSidebar>
   );
 }

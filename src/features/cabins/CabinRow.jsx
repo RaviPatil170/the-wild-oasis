@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
-import React, { useState } from "react";
 import { formatCurrency } from "../../utils/helpers";
 import CreateCabinEditForm from "./CreateCabinEditForm";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { useCreateCabin } from "./useCreateCabin";
-
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
@@ -46,7 +48,6 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 export default function CabinRow({ cabin }) {
-  const [showForm, setShowForm] = useState(false);
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
   const {
@@ -71,32 +72,48 @@ export default function CabinRow({ cabin }) {
   }
   return (
     <>
-      <TableRow role="row">
+      <Table.Row role="row">
         <img src={image} alt={name} />
         <Cabin>{name}</Cabin>
         <div>{maxCapacity}</div>
         <Price>{formatCurrency(regularPrice)}</Price>
         <Discount>{formatCurrency(discount)}</Discount>
         <div>
-          <button onClick={handleDuplicate}>
-            <HiSquare2Stack></HiSquare2Stack>
-          </button>
-          <button onClick={() => setShowForm(() => !showForm)}>
-            <HiPencil></HiPencil>
-          </button>
-          <button
-            onClick={() => {
-              deleteCabin(cabinId);
-            }}
-            disabled={isDeleting}
-          >
-            <HiTrash></HiTrash>
-          </button>
+          <Modal>
+            <Menus.Menu>
+              <Menus.Toggle id={cabinId}></Menus.Toggle>
+              <Menus.List id={cabinId}>
+                <Menus.Button
+                  icon={<HiSquare2Stack></HiSquare2Stack>}
+                  onClick={handleDuplicate}
+                >
+                  Duplicate
+                </Menus.Button>
+                <Modal.Open opens="edit">
+                  <Menus.Button icon={<HiPencil></HiPencil>}>Edit</Menus.Button>
+                </Modal.Open>
+                <Modal.Open opens="confirm-delete">
+                  <Menus.Button icon={<HiTrash></HiTrash>}>Delete</Menus.Button>
+                </Modal.Open>
+              </Menus.List>
+
+              <Modal.Window name="edit">
+                <CreateCabinEditForm cabinToEdit={cabin}></CreateCabinEditForm>
+              </Modal.Window>
+
+              <Modal.Window name="confirm-delete">
+                <ConfirmDelete
+                  resourceName="cabins"
+                  onConfirm={() => {
+                    deleteCabin(cabinId);
+                  }}
+                  disabled={isDeleting}
+                ></ConfirmDelete>
+              </Modal.Window>
+            </Menus.Menu>
+          </Modal>
         </div>
-      </TableRow>
-      {showForm && (
-        <CreateCabinEditForm cabinToEdit={cabin}></CreateCabinEditForm>
-      )}
+      </Table.Row>
     </>
   );
 }

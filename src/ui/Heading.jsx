@@ -24,6 +24,15 @@ ${(props) =>
     css`
       font-size: 2rem;
       font-weight: 600;
+      text-align: center;
+    `}
+
+    ${(props) =>
+    props.type === "h4" &&
+    css`
+      font-size: 3rem;
+      font-weight: 700;
+      background-color: red;
     `}
 `;
 
