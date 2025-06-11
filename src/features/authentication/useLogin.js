@@ -14,9 +14,9 @@ export function useLogin() {
   } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (data) => {
-      navigate("/dashboard");
       console.log(data);
-      queryClient.setQueryData("user", data.user);
+      //queryClient.setQueryData("user", data.user);
+      navigate("/dashboard");
       toast.success(`welcome to the wild oasis`);
     },
     onError: (error) => {
