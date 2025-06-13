@@ -6,7 +6,7 @@ export function useUser() {
     queryFn: getCurrentuser,
     queryKey: ["user"],
   });
-  console.log(user, "use user");
+  console.log(user, "from use user");
   return {
     user,
     isLoading,

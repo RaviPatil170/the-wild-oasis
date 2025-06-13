@@ -17,7 +17,7 @@ function UpdateUserDataForm() {
       email,
       user_metadata: { fullName: currentFullName },
     },
-  } = useUser().user;
+  } = useUser();
 
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);

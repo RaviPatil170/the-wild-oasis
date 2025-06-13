@@ -21,17 +21,22 @@ export async function login({ email, password }) {
     password,
   });
   if (error) throw new Error(error.message);
-  console.log(data);
   return data;
 }
 export async function getCurrentuser() {
-  const { data: sessionData } = await supabase.auth.getSession();
-  if (!sessionData.session) return null;
-  const { data, error } = await supabase.auth.getUser();
-  console.log(data);
-  if (error) throw new Error(error.message);
+  const { data: session } = await supabase.auth.getSession();
+  if (!session.session) return null;
 
-  return data;
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) throw new Error(error.message);
+  return data?.user;
+  // const { data: sessionData } = await supabase.auth.getSession();
+  // if (!sessionData.session) return null;
+  // const { data, error } = await supabase.auth.getUser();
+  // if (error) throw new Error(error.message);
+
+  // return data;
 }
 export async function logout() {
   const { error } = await supabase.auth.signOut();
@@ -44,7 +49,7 @@ export async function updateCurrentUser({ fullName, password, avatar }) {
     updatedData = { data: { fullName } };
   }
   if (password) updatedData = { password };
-  const { data, error } = supabase.auth.updateUser(updatedData);
+  const { data, error } = await supabase.auth.updateUser(updatedData);
   if (error) throw new Error(error.message);
   if (!avatar) return data;
   //2 upload the avatar image

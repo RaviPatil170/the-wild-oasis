@@ -78,7 +78,7 @@ export default function SalesChart({ bookings, numdays }) {
     start: subDays(new Date(), numdays - 1),
     end: new Date(),
   });
-  console.log(allDates);
+  //console.log(allDates);
   const data = allDates.map((date) => {
     return {
       label: format(date, "MMM dd"),
@@ -87,10 +87,12 @@ export default function SalesChart({ bookings, numdays }) {
         .reduce((acc, cur) => acc + cur.totalPrice, 0),
     };
   });
-  console.log(data);
   return (
     <StyledSalesChart>
-      <Heading as="h2">sales</Heading>
+      <Heading as="h2">
+        sales from {format(allDates[0], "MMM dd yyyy")} &mdash;
+        {format(allDates[allDates.length - 1], "MMM dd yyyy")}
+      </Heading>
       <ResponsiveContainer height={250} width="100%">
         <AreaChart data={data}>
           <XAxis

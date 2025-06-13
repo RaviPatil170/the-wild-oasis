@@ -7,11 +7,6 @@ import AddCabin from "../features/cabins/AddCabin";
 import CabinTableOperations from "../features/cabins/CabinTableOperations";
 
 function Cabins() {
-  useEffect(() => {
-    getCabin().then((cabins) => {
-      console.log(cabins);
-    });
-  }, []);
   return (
     <>
       <Row type="horizontal">

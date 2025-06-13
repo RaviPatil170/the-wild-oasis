@@ -14,7 +14,7 @@ function LoginForm() {
   function handleSubmit(e) {
     //aditya@test.com
     //Upsc@11
-    console.log(email, password);
+    // console.log(email, password);
     e.preventDefault();
     if (!email || !password) return;
     login({ email, password });
