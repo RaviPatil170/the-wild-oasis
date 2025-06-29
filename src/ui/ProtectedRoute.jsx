@@ -14,7 +14,6 @@ const Fullpage = styled.div`
 export default function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   //1. load autheticated users
-  debugger;
   const { user, isLoading } = useUser();
   //while loading show spinner
   const isAuthenticated = user?.role === "authenticated" ? true : false;
